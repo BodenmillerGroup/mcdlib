@@ -1,0 +1,5 @@
+add_subdirectory(googletest EXCLUDE_FROM_ALL)
+file(GLOB_RECURSE TEST_FILES test *.cpp *.hpp)
+add_executable(mcdtest MCDTest.cpp ${TEST_FILES})
+target_link_libraries(mcdtest mcd gtest)
+target_include_directories(mcdtest PUBLIC ../src)
