@@ -6,6 +6,7 @@ MCD file parser library
 * Full metadata access
 * Slide image extraction
 * Panorama image extraction
+* Acquisition image extraction
 * Binary data access (in-memory)
 * OME-TIFF export (optional compression)
 * Unit test environment
@@ -51,7 +52,44 @@ Note: if you experience troubles while building the library (more specifically, 
 In C++11, just include the headers:
 
 ```C++
+#include <string>
+
+#define OMETIFF_SUPPORT_ENABLED
 #include <mcdlib/MCDFile.h>
+
+int main(int argc, char *argv[]) {
+    mcd::MCDFile mcdFile("/path/to/file");
+
+    // full metadata access
+    auto meta = mcdFile.readMetadata();
+    auto firstSlide = meta.getSlides()[0];
+    const std::string schemaXML = meta.getSchemaXML();
+    auto swVersion = firstSlide->getProperty("SwVersion");
+
+    // panorama image extraction
+    auto firstPanorama = firstSlide->getPanoramas()[0];
+    mcdFile.savePanoramaImage(firstPanorama, "/path/to/file");
+
+    // slide image extraction
+    auto firstRegion = firstPanorama->getRegions()[0];
+    mcdFile.saveSlideImage(firstSlide, "/path/to/file");
+
+    // before/after acquisition image extraction
+    auto firstAcquisition = firstRegion->getAcquisitions()[0];
+    mcdFile.saveAcquisitionImage(firstAcquisition, "/path/to/file", mcd::MCDFile::AcquisitionImageType::BEFORE);
+
+    // acquisition data export to OME-TIFF
+    std::string compression = "LZW";
+    auto data = mcdFile.readAcquisitionData(firstAcquisition);
+    data.writeOMETIFF("/path/to/file", &compression);
+
+    // in-memory acquisition data access
+    auto firstChannel = firstAcquisition->getChannels()[0];
+    auto firstChannelData = data.findChannelData(firstChannel);
+    auto firstChannelDataRaw = firstChannelData->getData();
+
+    return 0;
+}
 ```
 
 In Python 3, just import the module:
