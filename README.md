@@ -63,7 +63,7 @@ help(mcdpy.MCDFile)
 
 ## License
 
-Copyright 2017 Jonas Windhager
+Copyright 2017 Bodenmiller Lab
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this project except in compliance with the License.
