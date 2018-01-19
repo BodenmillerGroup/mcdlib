@@ -70,7 +70,8 @@ PYBIND11_MODULE(mcdpy, m) {
             .def("writeOMETIFF", &mcd::py::writeOMETIFFUncompressed, "Exports the binary data of this acquisition as a multipage OME-TIFF (float, 32-bit) file", py::arg("destPath"))
             .def("writeOMETIFFCompressed", &mcd::MCDFileAcquisitionData::writeOMETIFF, "Exports the binary data of this acquisition as a compressed multipage OME-TIFF (float, 32-bit) file", py::arg("destPath"), py::arg("compression"))
 #endif //OMETIFF_SUPPORT_ENABLED
-            .def_property_readonly("channelData", &mcd::MCDFileAcquisitionData::getChannelData, "A list of per-channel data recordings (same ordering as in Acquisition.channels is guaranteed)");
+            .def_property_readonly("channelData", &mcd::MCDFileAcquisitionData::getChannelData, "A list of per-channel data recordings (same ordering as in Acquisition.channels is guaranteed)")
+            .def("findChannelData", &mcd::MCDFileAcquisitionData::findChannelData, "Find the channel data for a specific Channel metadata instance", py::arg("channel"));
 
     py::class_<mcd::data::ChannelData, std::shared_ptr<mcd::data::ChannelData>>(m, "ChannelData")
             .def_property_readonly("channel", &mcd::data::ChannelData::getChannel, "The channel this data belongs to")

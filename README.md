@@ -48,18 +48,49 @@ Note: if you experience troubles while building the library (more specifically, 
 
 ## Usage
 
-In C++11, just include the headers:
+This is a C++11 example of the full functionality of the library:
 
 ```C++
 #include <mcdlib/MCDFile.h>
 ```
 
-In Python 3, just import the module:
+For interactive/scripting usage, this is a Python 3 example:
 
 ```python3
 import mcdpy
-help(mcdpy.MCDFile)
+mcd = mcdpy.MCDFile('/path/to/file')
+
+# full metadata access
+meta = mcd.readMetadata()
+first_slide = meta.slides[0]
+print(first_slide.properties['SwVersion'])
+print(meta.schemaXML)
+
+# panorama image extraction
+first_panorama = first_slide.panoramas[0]
+mcd.savePanoramaImage(first_slide, '/path/to/file')
+
+# slide image extraction
+first_region = first_panorama.regions[0]
+mcd.saveSlideImage(first_region, '/path/to/file')
+
+# before/after acquisition image extraction
+first_acquisition = first_region.acquisitions[0]
+mcd.saveAcquisitionImage(first_acquisition, '/path/to/file', mcdpy.AcquisitionImageType.BEFORE)
+mcd.saveAcquisitionImage(first_acquisition, '/path/to/file', mcdpy.AcquisitionImageType.AFTER)
+
+# acquisition data export to OME-TIFF
+data = mcd.readAcquisitionData(first_acquisition)
+data.writeOMETIFF('/path/to/file.ome.tiff')
+data.writeOMETIFFCompressed('/path/to/file.ome.tiff', 'LZW')
+
+# in-memory acquisition data access
+first_channel = first_acquisition.channels[0]
+channel_data = data.findChannelData(first_channel)
+raw_channel_data = channel_data.data
 ```
+
+At any time, a brief documentation is available using Python's built-in help functionality.
 
 ## License
 
