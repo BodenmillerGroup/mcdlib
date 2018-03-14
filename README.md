@@ -66,15 +66,15 @@ int main(int argc, char *argv[]) {
     const std::string schemaXML = meta.getSchemaXML();
     auto swVersion = firstSlide->getProperty("SwVersion");
 
+    // slide image extraction
+    mcdFile.saveSlideImage(firstSlide, "/path/to/file");
+
     // panorama image extraction
     auto firstPanorama = firstSlide->getPanoramas()[0];
     mcdFile.savePanoramaImage(firstPanorama, "/path/to/file");
 
-    // slide image extraction
-    auto firstRegion = firstPanorama->getRegions()[0];
-    mcdFile.saveSlideImage(firstSlide, "/path/to/file");
-
     // before/after acquisition image extraction
+    auto firstRegion = firstPanorama->getRegions()[0];
     auto firstAcquisition = firstRegion->getAcquisitions()[0];
     mcdFile.saveAcquisitionImage(firstAcquisition, "/path/to/file", mcd::MCDFile::AcquisitionImageType::BEFORE);
 
@@ -104,15 +104,15 @@ first_slide = meta.slides[0]
 print(first_slide.properties['SwVersion'])
 print(meta.schemaXML)
 
+# slide image extraction
+mcd.saveSlideImage(first_slide, '/path/to/file')
+
 # panorama image extraction
 first_panorama = first_slide.panoramas[0]
-mcd.savePanoramaImage(first_slide, '/path/to/file')
-
-# slide image extraction
-first_region = first_panorama.regions[0]
-mcd.saveSlideImage(first_region, '/path/to/file')
+mcd.savePanoramaImage(first_panorama, '/path/to/file')
 
 # before/after acquisition image extraction
+first_region = first_panorama.regions[0]
 first_acquisition = first_region.acquisitions[0]
 mcd.saveAcquisitionImage(first_acquisition, '/path/to/file', mcdpy.AcquisitionImageType.BEFORE)
 mcd.saveAcquisitionImage(first_acquisition, '/path/to/file', mcdpy.AcquisitionImageType.AFTER)
