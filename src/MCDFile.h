@@ -14,7 +14,7 @@
 #define IMAGE_START_OFFSET 161
 #define COPY_BUFFER_SIZE 8192
 #define SEARCH_BUFFER_SIZE 8192
-#define MCDSCHEMA_START "<MCDSchema xmlns=\"http://www.fluidigm.com/IMC/MCDSchema.xsd\">"
+#define MCDSCHEMA_START "<MCDSchema"
 #define MCDSCHEMA_END "</MCDSchema>"
 
 namespace mcd {
