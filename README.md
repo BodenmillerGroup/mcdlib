@@ -132,7 +132,7 @@ At any time, a brief documentation is available using Python's built-in help fun
 
 ## License
 
-Copyright 2017 Bodenmiller Lab
+Copyright 2017 Jonas Windhager
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this project except in compliance with the License.
